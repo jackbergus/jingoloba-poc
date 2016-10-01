@@ -21,6 +21,7 @@ matrix:
          packages: &precise_latest_boost_packages
            - gcc-4.9
            - g++-4.9
+           - gcov-4.9
            - clang-3.7
            - valgrind
            # Misc
@@ -39,6 +40,8 @@ before_install:
 install:
     # /usr/bin/gcc is 4.6 always, but gcc-X.Y is available.
     - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
+    # /usr/bin/gcov is 4.6 always, but gcc-X.Y is available.
+    - export gcov="gcov-4.9"
     # /usr/bin/clang is 3.4, lets override with modern one.
     - if [ "$CXX" = "clang++" ] && [ "$TRAVIS_OS_NAME" = "linux" ]; then export CXX="clang++-3.7" CC="clang-3.7"; fi
     - echo ${PATH}

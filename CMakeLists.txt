@@ -40,7 +40,6 @@ target_link_libraries(project1 project1_lib)
 option(BUILD_TESTS "Build all tests." OFF) # Makes boolean 'test' available.
 
 if (BUILD_TESTS)
-  SET(CMAKE_CXX_FLAGS "-std=c11")
   # This adds another subdirectory, which has 'project(gtest)'.
   add_subdirectory(ext/gtest-1.8.0)
 
