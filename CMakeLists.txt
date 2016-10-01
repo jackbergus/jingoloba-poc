@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
 
-# Options. Turn on with 'cmake -Dmyvarname=ON'.
-option(test "Build all tests." OFF) # Makes boolean 'test' available.
-
 # Make PROJECT_SOURCE_DIR, PROJECT_BINARY_DIR, and PROJECT_NAME available.
 set(PROJECT_NAME MyProject)
 project(${PROJECT_NAME})
@@ -13,23 +10,38 @@ set(CMAKE_CXX_FLAGS "-g -Wall")
 # include_directories(${COMMON_INCLUDES}) in other CMakeLists.txt files.
 # set(COMMON_INCLUDES ${PROJECT_SOURCE_DIR}/include)
 
+#----------------------------------------------------------------------------
+# Define project sources and includes
+#----------------------------------------------------------------------------
+set(COMMON_INCLUDES ${PROJECT_SOURCE_DIR}/include)
+include_directories(${COMMON_INCLUDES})
+file(GLOB SRC_FILES ${PROJECT_SOURCE_DIR}/src/*.cpp)
+file(GLOB TEST_SRC_FILES ${PROJECT_SOURCE_DIR}/test/*.cpp)
+list(REMOVE_ITEM SRC_FILES ${PROJECT_SOURCE_DIR}/src/main.cpp)
+
+set(CMAKE_CXX_STANDARD 11)
+
 ################################
 # Normal Libraries & Executables
 ################################
-add_library(project1_lib project1.cpp)
-add_executable(project1 main.cpp)
+add_library(project1_lib ${SRC_FILES})
+add_executable(project1 ${PROJECT_SOURCE_DIR}/src/main.cpp)
 # Key idea: SEPARATE OUT your main() function into its own file so it can be its
 # own executable. Separating out main() means you can add this library to be
-# used elsewhere.
+# used elsewhere (e.g linking to the test executable).
 
 target_link_libraries(project1 project1_lib)
 
 ################################
 # Testing
 ################################
-if (test)
+
+# Options. Turn on with 'cmake -Dmyvarname=ON'.
+option(BUILD_TESTS "Build all tests." OFF) # Makes boolean 'test' available.
+
+if (BUILD_TESTS)
   # This adds another subdirectory, which has 'project(gtest)'.
-  add_subdirectory(lib/gtest-1.6.0)
+  add_subdirectory(ext/gtest-1.6.0)
 
   enable_testing()
 
@@ -40,7 +52,7 @@ if (test)
   ##############
   # Unit Tests
   ##############
-  add_executable(runUnitTests test_project1.cpp)
+  add_executable(runUnitTests ${TEST_SRC_FILES})
 
   # Standard linking to gtest stuff.
   target_link_libraries(runUnitTests gtest gtest_main)
@@ -55,4 +67,15 @@ if (test)
   # You can also omit NAME and COMMAND. The second argument could be some other
   # test executable.
   add_test(that-other-test-I-made runUnitTests)
+
+  set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/.travis/cmake)
+
+  if (CMAKE_BUILD_TYPE STREQUAL "Coverage")
+    include(CodeCoverage)
+    setup_target_for_coverage(${PROJECT_NAME}_coverage test_bin coverage)
+
+    SET(CMAKE_CXX_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
+    SET(CMAKE_C_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
+  endif() #CMAKE_BUILD_TYPE STREQUAL "Coverage"
+
 endif()
