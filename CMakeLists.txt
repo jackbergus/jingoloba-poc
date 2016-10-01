@@ -62,17 +62,13 @@ if (BUILD_TESTS)
 
   # This is so you can do 'make test' to see all your tests run, instead of
   # manually running the executable runUnitTests to see those specific tests.
-  add_test(NAME that-test-I-made COMMAND runUnitTests)
-
-  # You can also omit NAME and COMMAND. The second argument could be some other
-  # test executable.
-  add_test(that-other-test-I-made runUnitTests)
+  add_test(UnitTests runUnitTests)
 
   set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/.travis/cmake)
 
   if (CMAKE_BUILD_TYPE STREQUAL "Coverage")
     include(CodeCoverage)
-    setup_target_for_coverage(${PROJECT_NAME}_coverage test_bin coverage)
+    setup_target_for_coverage(${PROJECT_NAME}_coverage runUnitTests coverage)
 
     SET(CMAKE_CXX_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
     SET(CMAKE_C_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
