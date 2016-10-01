@@ -3,7 +3,7 @@ language: cpp
 env:
   global:
     # Ubuntu version
-    - LINUX_DIST=precise
+    - LINUX_DIST=trusty
     - DEPS_DIR=${TRAVIS_BUILD_DIR}/deps
     # Global build options and C++ flags
     - CXX_FLAGS="-Wall -pedantic -Werror -Wno-variadic-macros -Wno-long-long -Wno-shadow"
@@ -14,6 +14,7 @@ env:
 matrix:
   include:
     - os: linux
+      dist: trusty
       sudo: true
       compiler: gcc
       addons:
@@ -39,11 +40,11 @@ before_install:
 
 install:
     # /usr/bin/gcc is 4.6 always, but gcc-X.Y is available.
-    - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+    #- if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
     # /usr/bin/gcov is 4.6 always, but gcc-X.Y is available.
     #- export gcov="gcov-4.8"
-    - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
-    - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-4.8 90
+    #- sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
+    #- sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-4.8 90
     # /usr/bin/clang is 3.4, lets override with modern one.
     - if [ "$CXX" = "clang++" ] && [ "$TRAVIS_OS_NAME" = "linux" ]; then export CXX="clang++-3.7" CC="clang-3.7"; fi
     - echo ${PATH}
