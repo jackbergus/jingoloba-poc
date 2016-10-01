@@ -41,7 +41,7 @@ option(BUILD_TESTS "Build all tests." OFF) # Makes boolean 'test' available.
 
 if (BUILD_TESTS)
   # This adds another subdirectory, which has 'project(gtest)'.
-  add_subdirectory(ext/gtest-1.6.0)
+  add_subdirectory(ext/gtest-1.8.0)
 
   enable_testing()
 
