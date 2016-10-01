@@ -18,10 +18,13 @@ matrix:
       compiler: gcc
       addons:
        apt:
-         packages: &precise_latest_boost_packages
+         packages:
            - g++-4.8
            # Misc
-         sources: &precise_latest_boost_sources
+	   - python-yaml
+           - lcov
+           - libopencv-dev
+         sources:
            - ubuntu-toolchain-r-test
     
 before_install:
@@ -54,4 +57,4 @@ script:
 
 
 after_success:
-    #- codecov -t fa20b13d-8e89-4243-8e0d-1d56962e56fe
+    - codecov -t c376990f-2ad6-4f7b-bbdb-5378a52e295c

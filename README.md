@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/gujans/gtest-cmake-example.svg?branch=master)](https://travis-ci.org/gujans/gtest-cmake-example) [![codecov](https://codecov.io/gh/gujans/gtest-cmake-example/branch/master/graph/badge.svg)](https://codecov.io/gh/gujans/gtest-cmake-example)
+
+
 # What is this?
 This is an example setup of Travis-CI with cmake and google test. I finally got all three working together nicely with the help of [dmonopoly's cmake and gtest example](https://github.com/dmonopoly/gtest-cmake-example). Hopefully it'll help someone get set up with cmake and google test on travis-ci.
 
