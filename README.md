@@ -1,21 +1,21 @@
 # What is this?
-This is an example setup of cmake with google test. I got it working after
-consulting the google test primer, among other things. Hopefully it'll help
-someone get set up with C++ and google test.
+This is an example setup of Travis-CI with cmake and google test. I finally got all three working together nicely with the help of [dmonopoly's cmake and gtest example](https://github.com/dmonopoly/gtest-cmake-example). Hopefully it'll help someone get set up with cmake and google test on travis-ci.
 
 # Where are things?
 `build/` is where code is built - like where executables are.  
-`lib/` includes gtest-1.6.0.  
+`ext/` includes gtest-1.6.0.
+`inlcude/` is where the header files are located (here: project1.h)
+`src/` is where the source files are located (here: project1.cpp, main.cpp)
+`test/` is where the test source files are located (here: test_project1.cpp)
 Rest of code in root:  
 -`CMakeLists.txt` must be in each subdirectory of the project  
--`main.cpp` is just a driver file - the common place to run the normal
-application  
--`project1.cpp` and `project1.h` have code for the class 'Project1'  
--`test_project1.cpp` has code to test Project1  
 
 # What do I do?
 
-## Use cmake and make
+## Use it on Travis-CI:
+Please look at the travis.yml file to see the setup of travis. As the gtest library is located within your project. The procedure on Travis is quite simple. Note that I used a more recent version of `cmake` as provided in the `ubuntu precise` repositories. This is needed for the relatively recent command `REMOVE_ITEM` to exclude the `main.cpp` from the source file list as I am lazy and did not want to write out the files by name.
+
+## Use it locally: 
 If you want to test it all out through the common gtest procedure, first
 **delete build/** (if present). Then...
 
@@ -38,7 +38,12 @@ To run all tests easily,
 
     make test
 
-## Run executables
+Note: `cmake -DBUILD_TESTS=ON` turns on the variable 'test', which is specified in the root
+CMakeLists.txt file. This is handy if you want to build in certain ways. Clear
+description
+[here](http://stackoverflow.com/questions/5998186/cmake-adding-command-line-options).
+
+### Run executables
 Then you can do ./myexecutable for the generated executable, e.g.:
 
     ./project1
@@ -47,27 +52,6 @@ and if you did cmake with test=ON:
 
     ./runUnitTests
 
-# Details
-
-## Command things
-`cmake -Dtest=ON` turns on the variable 'test', which is specified in the root
-CMakeLists.txt file. This is handy if you want to build in certain ways. Clear
-description
-[here](http://stackoverflow.com/questions/5998186/cmake-adding-command-line-options).
-
-## My experience
-I spent a lot of time figuring out how I wanted to reference the gtest library.  
-
-[On StackOverflow](http://stackoverflow.com/questions/9689183/cmake-googletest)
-there are ways to download the svn repo when you cmake, but that's internet
-connection dependent. There is also a way to set a variable for where gtest is
-installed on your system, but that got a bit tedious.  
-
-In the end I opted to just have a copy of gtest locally in whatever application
-I have that uses gtest.  
-[This user's edited
-solution](http://stackoverflow.com/questions/8507723/how-to-start-working-with-gtest-and-cmake)
-and [my own question's
-response](http://stackoverflow.com/questions/14148145/gtest-detects-method-only-when-the-method-is-implemented-in-h-not-in-cpp-cma/14157405#14157405)
-helped me out.
+# Acknowledgement and further details
+This repository is based on the works of XX in [this](https://github.com/dmonopoly/gtest-cmake-example) repository. He spent a lot of time figuring out all the details for cmake and gtest. Please refer to his repository README for more detail on his approach.
 
