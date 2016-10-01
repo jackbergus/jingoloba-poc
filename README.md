@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/gujans/gtest-cmake-example.svg?branch=master)](https://travis-ci.org/gujans/gtest-cmake-example) [![codecov](https://codecov.io/gh/gujans/gtest-cmake-example/branch/master/graph/badge.svg)](https://codecov.io/gh/gujans/gtest-cmake-example)
+[![Build Status](https://travis-ci.org/gujans/travis-gtest-cmake-example.svg?branch=master)](https://travis-ci.org/gujans/travis-gtest-cmake-example) [![codecov](https://codecov.io/gh/gujans/gtest-cmake-example/branch/master/graph/badge.svg)](https://codecov.io/gh/gujans/gtest-cmake-example)
 
 
 # What is this?
