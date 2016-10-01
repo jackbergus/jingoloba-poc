@@ -19,8 +19,7 @@ matrix:
       addons:
        apt:
          packages: &precise_latest_boost_packages
-           #- g++-5
-           - g++-4.8
+           - g++-4.9
            # Misc
            - python-yaml
            - lcov
