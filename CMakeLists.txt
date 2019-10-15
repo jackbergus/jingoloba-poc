@@ -38,10 +38,10 @@ add_library(project1_lib ${SRC_FILES})
 # Options. Turn on with 'cmake -Dmyvarname=ON'.
 #option(BUILD_TESTS "Build all tests." ON) # Makes boolean 'test' available.
 
-set(DEBUG ON)
+set(BUILD_TESTS ON)
 
 #if (BUILD_TESTS)
-if(DEBUG)
+if(BUILD_TESTS)
   set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
   find_package(Backward)
   add_executable(project1 ${PROJECT_SOURCE_DIR}/src/main.cpp ${BACKWARD_ENABLE})
