@@ -6,5 +6,6 @@ void Project1::foo(int &i) {
 
 
 void independentMethod(int &i) {
+    //throw 1;
 	i = 0;
 }

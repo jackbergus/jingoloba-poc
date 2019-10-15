@@ -1,8 +1,9 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.13)
 
 # Make PROJECT_SOURCE_DIR, PROJECT_BINARY_DIR, and PROJECT_NAME available.
 set(PROJECT_NAME project1)
 project(${PROJECT_NAME})
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 set(CMAKE_CXX_FLAGS "-g -Wall")
 
@@ -24,22 +25,28 @@ set(CMAKE_CXX_STANDARD 11)
 ################################
 # Normal Libraries & Executables
 ################################
-add_library(project1_lib ${SRC_FILES})
-add_executable(project1 ${PROJECT_SOURCE_DIR}/src/main.cpp)
-# Key idea: SEPARATE OUT your main() function into its own file so it can be its
-# own executable. Separating out main() means you can add this library to be
-# used elsewhere (e.g linking to the test executable).
 
-target_link_libraries(project1 project1_lib)
+add_subdirectory(submodules/backward-cpp)
+add_library(project1_lib ${SRC_FILES})
+
+
 
 ################################
 # Testing
 ################################
 
 # Options. Turn on with 'cmake -Dmyvarname=ON'.
-option(BUILD_TESTS "Build all tests." ON) # Makes boolean 'test' available.
+#option(BUILD_TESTS "Build all tests." ON) # Makes boolean 'test' available.
 
-if (BUILD_TESTS)
+set(DEBUG ON)
+
+#if (BUILD_TESTS)
+if(DEBUG)
+  set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+  find_package(Backward)
+  add_executable(project1 ${PROJECT_SOURCE_DIR}/src/main.cpp ${BACKWARD_ENABLE})
+  target_link_libraries(project1 PUBLIC project1_lib backward dw dwarf)
+
   # This adds another subdirectory, which has 'project(gtest)'.
   add_subdirectory(submodules/googletest)
 
@@ -74,4 +81,10 @@ if (BUILD_TESTS)
     SET(CMAKE_C_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
   endif() #CMAKE_BUILD_TYPE STREQUAL "Coverage"
 
+else()
+  add_executable(project1 ${PROJECT_SOURCE_DIR}/src/main.cpp)
+  # Key idea: SEPARATE OUT your main() function into its own file so it can be its
+  # own executable. Separating out main() means you can add this library to be
+  # used elsewhere (e.g linking to the test executable).
+  target_link_libraries(project1 project1_lib)
 endif()
