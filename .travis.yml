@@ -14,7 +14,7 @@ env:
 matrix:
   include:
     - os: linux
-      dist: disco
+      dist: bionic
       sudo: true
       compiler: gcc
       addons:
@@ -23,8 +23,8 @@ matrix:
            - gcc-8
            - g++-8
            #- gcov-4.9
-           #- clang-3.7
-           #- valgrind
+           - clang-3.7
+           - valgrind
            # Misc
            - python-yaml
            - lcov
