@@ -36,9 +36,9 @@ add_library(project1_lib ${SRC_FILES})
 ################################
 
 # Options. Turn on with 'cmake -Dmyvarname=ON'.
-#option(BUILD_TESTS "Build all tests." ON) # Makes boolean 'test' available.
+option(BUILD_TESTS "Build all tests." ON) # Makes boolean 'test' available.
 
-set(BUILD_TESTS ON)
+#set(BUILD_TESTS ON)
 
 #if (BUILD_TESTS)
 if(BUILD_TESTS)
